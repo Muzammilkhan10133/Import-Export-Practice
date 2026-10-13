@@ -1,0 +1,6 @@
+{
+  "name": "TransLogix - Supabase Import/Export Logistics ERP",
+  "description": "Enterprise Import/Export Logistics & Freight Management System powered by Supabase PostgreSQL, Storage, Row-Level Security, and Realtime Tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
