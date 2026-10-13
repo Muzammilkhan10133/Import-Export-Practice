@@ -1,0 +1,65 @@
+{
+  "entities": {
+    "shipment": {
+      "title": "Shipment",
+      "description": "Logistics freight consignment record",
+      "type": "object",
+      "properties": {
+        "tracking_number": { "type": "string" },
+        "shipment_type": { "type": "string", "enum": ["import", "export"] },
+        "reference_number": { "type": "string" },
+        "origin_city": { "type": "string" },
+        "destination_city": { "type": "string" },
+        "transport_mode": { "type": "string", "enum": ["sea", "air", "road", "rail", "multimodal"] },
+        "current_status": { "type": "string" },
+        "total_value": { "type": "number" },
+        "currency": { "type": "string" },
+        "created_at": { "type": "string" },
+        "updated_at": { "type": "string" }
+      },
+      "required": ["tracking_number", "shipment_type", "origin_city", "destination_city", "current_status"]
+    },
+    "tracking_event": {
+      "title": "TrackingEvent",
+      "description": "Immutable shipment tracking event milestone",
+      "type": "object",
+      "properties": {
+        "shipment_id": { "type": "string" },
+        "status": { "type": "string" },
+        "location_name": { "type": "string" },
+        "remarks": { "type": "string" },
+        "event_date": { "type": "string" },
+        "created_at": { "type": "string" }
+      },
+      "required": ["shipment_id", "status", "location_name", "event_date"]
+    },
+    "customs_declaration": {
+      "title": "CustomsDeclaration",
+      "description": "Customs Goods Declaration (GD) record",
+      "type": "object",
+      "properties": {
+        "declaration_number": { "type": "string" },
+        "customs_office": { "type": "string" },
+        "status": { "type": "string" },
+        "duty": { "type": "number" },
+        "tax": { "type": "number" },
+        "created_at": { "type": "string" }
+      },
+      "required": ["declaration_number", "customs_office", "status"]
+    }
+  },
+  "firestore": {
+    "/shipments/{shipmentId}": {
+      "schema": "shipment",
+      "description": "Active and completed freight shipments"
+    },
+    "/tracking_events/{eventId}": {
+      "schema": "tracking_event",
+      "description": "Milestone events tracking log"
+    },
+    "/customs/{customsId}": {
+      "schema": "customs_declaration",
+      "description": "Customs declarations and clearance"
+    }
+  }
+}

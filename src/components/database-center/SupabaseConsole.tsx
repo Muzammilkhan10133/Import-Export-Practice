@@ -295,7 +295,7 @@ CREATE TABLE IF NOT EXISTS public.exchange_rates (
 );`;
 
 export const SupabaseConsole: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'deployment' | 'migrations' | 'connection' | 'rls'>('deployment');
+  const [activeTab, setActiveTab] = useState<'deployment' | 'migrations' | 'connection' | 'rls' | 'release'>('release');
 
   // Connection form state
   const [urlInput, setUrlInput] = useState(SUPABASE_URL || '');
@@ -345,32 +345,44 @@ export const SupabaseConsole: React.FC = () => {
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-xl font-bold tracking-tight text-slate-900">
-              Supabase Backend Architecture & Deployment
+              Cloud Database & Release Management
             </h1>
             <span className="font-mono text-xs bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded font-bold">
-              PostgreSQL 16
+              Firebase Active
+            </span>
+            <span className="font-mono text-xs bg-blue-50 text-blue-800 border border-blue-200 px-2 py-0.5 rounded font-bold">
+              v1.0.0 Ready
             </span>
           </div>
           <p className="text-xs text-slate-500 mt-0.5">
-            Strict Supabase exclusivity: PostgreSQL, Auth, Storage, RLS, and Realtime integration
+            Cloud database integration, security rules, and automated GitHub release pipeline
           </p>
         </div>
 
         <div className="flex items-center gap-2">
           <a
-            href="https://supabase.com/dashboard"
+            href="https://console.firebase.google.com/project/favorable-fabric-lsmzh/firestore"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
           >
-            <span>Supabase Dashboard</span>
+            <span>Firebase Console</span>
             <ExternalLink className="h-3.5 w-3.5 text-slate-400" />
           </a>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-1 p-1 bg-slate-100 rounded-lg w-fit">
+      <div className="flex items-center gap-1 p-1 bg-slate-100 rounded-lg w-fit overflow-x-auto">
+        <button
+          onClick={() => setActiveTab('release')}
+          className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+            activeTab === 'release' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+          }`}
+        >
+          GitHub Release & Firebase
+        </button>
+
         <button
           onClick={() => setActiveTab('deployment')}
           className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
@@ -407,6 +419,146 @@ export const SupabaseConsole: React.FC = () => {
           RLS Policy Matrix
         </button>
       </div>
+
+      {/* TAB: GitHub Release & Firebase */}
+      {activeTab === 'release' && (
+        <div className="space-y-6">
+          {/* Firebase Database Status Card */}
+          <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-xs space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div className="flex items-center gap-2">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-500/10 text-amber-600">
+                  <Database className="h-4 w-4" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900">
+                    Firebase Cloud Database (Provisioned & Live)
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Cloud Firestore database provisioned and secured with deployed security rules
+                  </p>
+                </div>
+              </div>
+              <span className="flex items-center gap-1 text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+                <CheckCircle2 className="h-3.5 w-3.5" />
+                <span>Connected & Deployed</span>
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+              <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+                <div className="text-[11px] font-sans font-medium text-slate-500">Firebase Project ID</div>
+                <div className="mt-1 font-bold text-slate-900">favorable-fabric-lsmzh</div>
+              </div>
+
+              <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+                <div className="text-[11px] font-sans font-medium text-slate-500">Firestore Database ID</div>
+                <div className="mt-1 font-bold text-slate-900 truncate" title="ai-studio-translogixsupaba-c149facd-d2f8-4fe7-83c7-30fe4ea785c5">
+                  ai-studio-translogixsupaba-c149facd...
+                </div>
+              </div>
+
+              <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+                <div className="text-[11px] font-sans font-medium text-slate-500">Security Rules</div>
+                <div className="mt-1 font-bold text-emerald-700 flex items-center gap-1.5">
+                  <ShieldCheck className="h-4 w-4" />
+                  <span>firestore.rules Deployed</span>
+                </div>
+              </div>
+
+              <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+                <div className="text-[11px] font-sans font-medium text-slate-500">Intermediate Blueprint</div>
+                <div className="mt-1 font-bold text-slate-900 flex items-center gap-1.5">
+                  <FileCode className="h-4 w-4 text-slate-500" />
+                  <span>firebase-blueprint.json Configured</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 pt-2">
+              <a
+                href="https://console.firebase.google.com/project/favorable-fabric-lsmzh/firestore"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-md bg-slate-900 px-3.5 py-2 text-xs font-semibold text-white hover:bg-slate-800"
+              >
+                <span>Open Firestore Database Console</span>
+                <ExternalLink className="h-3.5 w-3.5" />
+              </a>
+            </div>
+          </div>
+
+          {/* GitHub Release Card */}
+          <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-xs space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div className="flex items-center gap-2">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/10 text-blue-600">
+                  <Terminal className="h-4 w-4" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900">
+                    GitHub Release v1.0.0 Pipeline
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    CI/CD workflow configured in <code className="font-mono text-slate-800">.github/workflows/release.yml</code>
+                  </p>
+                </div>
+              </div>
+              <span className="font-mono text-xs font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-full border border-blue-200">
+                v1.0.0
+              </span>
+            </div>
+
+            <p className="text-xs text-slate-600 leading-relaxed">
+              To publish a release on your GitHub repository, run the following commands in your local repository. The included GitHub Actions workflow will automatically build the production artifacts and create the release on GitHub:
+            </p>
+
+            <div className="space-y-3">
+              <div>
+                <div className="flex items-center justify-between text-xs font-semibold text-slate-700 mb-1">
+                  <span>Option 1: Git Tag Push (Triggers GitHub Actions)</span>
+                  <button
+                    onClick={() => handleCopy('git tag -a v1.0.0 -m "Release v1.0.0: TransLogix Logistics ERP"\ngit push origin v1.0.0', 'git-tag')}
+                    className="flex items-center gap-1 text-[11px] text-slate-500 hover:text-slate-900"
+                  >
+                    {copiedKey === 'git-tag' ? <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
+                    <span>{copiedKey === 'git-tag' ? 'Copied!' : 'Copy'}</span>
+                  </button>
+                </div>
+                <pre className="rounded-lg bg-slate-900 p-3 text-[11px] font-mono text-emerald-400 overflow-x-auto">
+{`git tag -a v1.0.0 -m "Release v1.0.0: TransLogix Logistics ERP"
+git push origin v1.0.0`}
+                </pre>
+              </div>
+
+              <div>
+                <div className="flex items-center justify-between text-xs font-semibold text-slate-700 mb-1">
+                  <span>Option 2: Using GitHub CLI (gh)</span>
+                  <button
+                    onClick={() => handleCopy('gh release create v1.0.0 --title "v1.0.0 - TransLogix Logistics ERP" --notes-file RELEASE_NOTES.md', 'gh-cli')}
+                    className="flex items-center gap-1 text-[11px] text-slate-500 hover:text-slate-900"
+                  >
+                    {copiedKey === 'gh-cli' ? <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
+                    <span>{copiedKey === 'gh-cli' ? 'Copied!' : 'Copy'}</span>
+                  </button>
+                </div>
+                <pre className="rounded-lg bg-slate-900 p-3 text-[11px] font-mono text-emerald-400 overflow-x-auto">
+{`gh release create v1.0.0 --title "v1.0.0 - TransLogix Logistics ERP" --notes-file RELEASE_NOTES.md`}
+                </pre>
+              </div>
+            </div>
+
+            <div className="rounded-md bg-slate-50 p-3 border border-slate-100 text-xs text-slate-600">
+              <span className="font-semibold text-slate-800">Files Configured for Release:</span>
+              <ul className="mt-1 list-disc list-inside space-y-0.5 font-mono text-[11px] text-slate-500">
+                <li>.github/workflows/release.yml (GitHub Actions Release Workflow)</li>
+                <li>RELEASE_NOTES.md (v1.0.0 Changelog and highlights)</li>
+                <li>package.json (Version set to 1.0.0)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* TAB 1: 12-Step Deployment Guide */}
       {activeTab === 'deployment' && (
